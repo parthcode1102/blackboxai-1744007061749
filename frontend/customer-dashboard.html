@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Rangoli Ice Cream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .order-card {
+            transition: all 0.2s ease;
+        }
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .status-confirmed {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+        .status-processing {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        .status-ready {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://images.pexels.com/photos/1192043/pexels-photo-1192043.jpeg" alt="Rangoli Logo" class="h-12 w-12 rounded-full object-cover">
+                <h1 class="ml-3 text-2xl font-bold text-orange-500">Rangoli Ice Cream</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="px-4 py-2 text-gray-700 hover:text-orange-500 transition">
+                    <i class="fas fa-home mr-1"></i> Home
+                </a>
+                <button onclick="logout()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
+                    <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Profile Section -->
+            <div class="md:w-1/3">
+                <div class="bg-white rounded-lg shadow p-6 sticky top-24">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center">
+                            <i class="fas fa-user text-orange-500 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h2 id="user-name" class="text-xl font-bold">John Doe</h2>
+                            <p id="user-email" class="text-gray-500">john@example.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">MEMBERSHIP SINCE</h3>
+                            <p id="join-date" class="font-medium">June 2023</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">TOTAL ORDERS</h3>
+                            <p id="total-orders" class="font-medium">12</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">FAVORITE ITEM</h3>
+                            <p id="favorite-item" class="font-medium">Vanilla Dream</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div class="md:w-2/3">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">My Orders</h2>
+                    <div class="relative">
+                        <select id="filter-orders" class="appearance-none bg-white border border-gray-300 rounded-md pl-3 pr-8 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="all">All Orders</option>
+                            <option value="current">Current Orders</option>
+                            <option value="past">Past Orders</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Orders -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-medium mb-4">Current Orders</h3>
+                    <div id="current-orders" class="space-y-4">
+                        <!-- Order cards will be loaded via JavaScript -->
+                        <div class="text-center py-12 bg-white rounded-lg shadow">
+                            <i class="fas fa-spinner fa-spin text-3xl text-orange-500 mb-4"></i>
+                            <p class="text-gray-500">Loading your orders...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Past Orders -->
+                <div>
+                    <h3 class="text-lg font-medium mb-4">Order History</h3>
+                    <div id="past-orders" class="space-y-4">
+                        <!-- Order cards will be loaded via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../scripts/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // In a real app, we would fetch user data from the backend
+            // For now, we'll simulate it
+            document.getElementById('user-name').textContent = 'John Doe';
+            document.getElementById('user-email').textContent = 'john@example.com';
+            document.getElementById('join-date').textContent = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            
+            // Simulate fetching orders
+            setTimeout(() => {
+                loadSampleOrders();
+            }, 1000);
+            
+            // Filter orders
+            document.getElementById('filter-orders').addEventListener('change', (e) => {
+                const filter = e.target.value;
+                if (filter === 'all') {
+                    document.getElementById('current-orders').classList.remove('hidden');
+                    document.getElementById('past-orders').classList.remove('hidden');
+                } else if (filter === 'current') {
+                    document.getElementById('current-orders').classList.remove('hidden');
+                    document.getElementById('past-orders').classList.add('hidden');
+                } else {
+                    document.getElementById('current-orders').classList.add('hidden');
+                    document.getElementById('past-orders').classList.remove('hidden');
+                }
+            });
+        });
+
+        function loadSampleOrders() {
+            const currentOrders = document.getElementById('current-orders');
+            const pastOrders = document.getElementById('past-orders');
+            
+            // Clear loading state
+            currentOrders.innerHTML = '';
+            pastOrders.innerHTML = '';
+            
+            // Sample current orders
+            const currentOrder = createOrderCard({
+                id: 'RNG-ABC123',
+                date: new Date(),
+                status: 'Processing',
+                items: [
+                    { name: 'Vanilla Dream', quantity: 2, price: 4.99 },
+                    { name: 'Chocolate Fudge', quantity: 1, price: 5.49 }
+                ],
+                total: 15.47,
+                isCurrent: true
+            });
+            currentOrders.appendChild(currentOrder);
+            
+            // Sample past orders
+            const pastOrdersData = [
+                {
+                    id: 'RNG-DEF456',
+                    date: new Date(Date.now() - 86400000 * 2),
+                    status: 'Completed',
+                    items: [
+                        { name: 'Mango Shake', quantity: 1, price: 6.99 },
+                        { name: 'Cheese Corn', quantity: 1, price: 3.99 }
+                    ],
+                    total: 10.98,
+                    isCurrent: false
+                },
+                {
+                    id: 'RNG-GHI789',
+                    date: new Date(Date.now() - 86400000 * 5),
+                    status: 'Completed',
+                    items: [
+                        { name: 'Strawberry Swirl', quantity: 3, price: 5.29 }
+                    ],
+                    total: 15.87,
+                    isCurrent: false
+                }
+            ];
+            
+            pastOrdersData.forEach(order => {
+                pastOrders.appendChild(createOrderCard(order));
+            });
+            
+            document.getElementById('total-orders').textContent = pastOrdersData.length + 1;
+        }
+
+        function createOrderCard(order) {
+            const card = document.createElement('div');
+            card.className = 'order-card bg-white rounded-lg shadow p-6';
+            
+            // Status badge
+            let statusClass = '';
+            let statusIcon = '';
+            if (order.status === 'Confirmed') {
+                statusClass = 'status-confirmed';
+                statusIcon = 'fa-check-circle';
+            } else if (order.status === 'Processing') {
+                statusClass = 'status-processing';
+                statusIcon = 'fa-spinner fa-pulse';
+            } else if (order.status === 'Ready') {
+                statusClass = 'status-ready';
+                statusIcon = 'fa-check-circle';
+            } else {
+                statusClass = 'bg-gray-100 text-gray-800';
+                statusIcon = 'fa-check-circle';
+            }
+            
+            // Order items list
+            const itemsList = order.items.map(item => `
+                <div class="flex justify-between py-2 border-b border-gray-100 last:border-0">
+                    <div>
+                        <span class="font-medium">${item.name}</span>
+                        <span class="text-gray-500 text-sm ml-2">x${item.quantity}</span>
+                    </div>
+                    <span class="font-medium">$${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+            `).join('');
+            
+            // Order actions
+            let actions = '';
+            if (order.isCurrent) {
+                actions = `
+                    <div class="mt-4 flex justify-between items-center">
+                        <button class="text-orange-500 hover:text-orange-700 font-medium">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Track Order
+                        </button>
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-question-circle mr-1"></i> Need Help?
+                        </button>
+                    </div>
+                `;
+            } else {
+                actions = `
+                    <div class="mt-4 flex justify-between items-center">
+                        <button class="text-orange-500 hover:text-orange-700 font-medium">
+                            <i class="fas fa-redo mr-1"></i> Reorder
+                        </button>
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-file-invoice mr-1"></i> View Bill
+                        </button>
+                    </div>
+                `;
+            }
+            
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold">Order #${order.id}</h3>
+                        <p class="text-gray-500 text-sm">${order.date.toLocaleDateString()} • ${order.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                    </div>
+                    <span class="status-badge ${statusClass}">
+                        <i class="fas ${statusIcon} mr-1"></i> ${order.status}
+                    </span>
+                </div>
+                
+                <div class="mb-4">
+                    ${itemsList}
+                </div>
+                
+                <div class="flex justify-between items-center pt-4 border-t">
+                    <span class="text-gray-500">Total</span>
+                    <span class="font-bold text-lg">$${order.total.toFixed(2)}</span>
+                </div>
+                
+                ${actions}
+            `;
+            
+            return card;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
