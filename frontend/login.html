@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Rangoli Ice Cream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+        .form-input {
+            transition: all 0.2s ease;
+        }
+        .form-input:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+        }
+        .auth-container {
+            min-height: calc(100vh - 80px);
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://images.pexels.com/photos/1192043/pexels-photo-1192043.jpeg" alt="Rangoli Logo" class="h-12 w-12 rounded-full object-cover">
+                <h1 class="ml-3 text-2xl font-bold text-orange-500">Rangoli Ice Cream</h1>
+            </div>
+            <div>
+                <a href="index.html" class="text-gray-700 hover:text-orange-500 transition">
+                    <i class="fas fa-home mr-1"></i> Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="auth-container flex items-center justify-center py-12">
+        <div class="w-full max-w-md">
+            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                <div class="bg-orange-500 py-6 px-8 text-center">
+                    <h2 class="text-2xl font-bold text-white">Welcome Back!</h2>
+                    <p class="text-orange-100 mt-1">Sign in to your account</p>
+                </div>
+                
+                <div class="p-8">
+                    <form id="login-form" class="space-y-6">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="email" name="email" required
+                                class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+                                placeholder="you@example.com">
+                        </div>
+                        
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <input type="password" id="password" name="password" required
+                                class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+                                placeholder="••••••••">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input id="remember-me" name="remember-me" type="checkbox"
+                                    class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded">
+                                <label for="remember-me" class="ml-2 block text-sm text-gray-700">
+                                    Remember me
+                                </label>
+                            </div>
+                            
+                            <div class="text-sm">
+                                <a href="#" class="font-medium text-orange-500 hover:text-orange-600">
+                                    Forgot password?
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition">
+                                <span id="login-text">Sign in</span>
+                                <span id="login-spinner" class="hidden ml-2">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="mt-6">
+                        <div class="relative">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 bg-white text-gray-500">
+                                    Don't have an account?
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <a href="register.html" class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition">
+                                Create new account
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center text-sm text-gray-500">
+                <p>
+                    Admin? <a href="#" class="font-medium text-orange-500 hover:text-orange-600">Sign in here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('login-form');
+            const loginText = document.getElementById('login-text');
+            const spinner = document.getElementById('login-spinner');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                loginText.textContent = 'Signing in...';
+                spinner.classList.remove('hidden');
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const rememberMe = document.getElementById('remember-me').checked;
+                
+                try {
+                    // In a real app, we would send this to the backend
+                    // const response = await fetch('../backend/login.php', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json'
+                    //     },
+                    //     body: JSON.stringify({ email, password, rememberMe })
+                    // });
+                    // const result = await response.json();
+                    
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Simulate successful login
+                    const isAdmin = email.includes('@rangoliadmin.com');
+                    const user = {
+                        name: email.split('@')[0],
+                        email,
+                        isAdmin
+                    };
+                    
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    
+                    if (isAdmin) {
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        window.location.href = 'customer-dashboard.html';
+                    }
+                    
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('Login failed. Please try again.');
+                    loginText.textContent = 'Sign in';
+                    spinner.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
