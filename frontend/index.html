@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangoli Ice Cream - Order Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .category-btn.active {
+            background-color: #f59e0b;
+            color: white;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(10px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+        .animate-fade-in-out {
+            animation: fadeInOut 3s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://images.pexels.com/photos/1192043/pexels-photo-1192043.jpeg" alt="Rangoli Logo" class="h-12 w-12 rounded-full object-cover">
+                <h1 class="ml-3 text-2xl font-bold text-orange-500">Rangoli Ice Cream</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="cart.html" class="relative">
+                    <i class="fas fa-shopping-cart text-2xl text-gray-700"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </a>
+                <div id="auth-buttons">
+                    <a href="login.html" class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex overflow-x-auto space-x-2 mb-6 pb-2">
+            <button class="category-btn active px-4 py-2 rounded-full bg-orange-100 text-orange-800 font-medium whitespace-nowrap" data-category="all">All Items</button>
+            <button class="category-btn px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium whitespace-nowrap" data-category="Ice Cream">Ice Cream</button>
+            <button class="category-btn px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium whitespace-nowrap" data-category="Shake">Shakes</button>
+            <button class="category-btn px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium whitespace-nowrap" data-category="Snack">Snacks</button>
+        </div>
+
+        <div id="menu-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Items will be loaded via JavaScript -->
+            <div class="text-center py-10">
+                <i class="fas fa-spinner fa-spin text-3xl text-orange-500"></i>
+                <p class="mt-2 text-gray-500">Loading menu...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="../scripts/main.js"></script>
+    <script src="../scripts/cart.js"></script>
+</body>
+</html>
