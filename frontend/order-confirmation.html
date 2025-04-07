@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Rangoli Ice Cream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f59e0b;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://images.pexels.com/photos/1192043/pexels-photo-1192043.jpeg" alt="Rangoli Logo" class="h-12 w-12 rounded-full object-cover">
+                <h1 class="ml-3 text-2xl font-bold text-orange-500">Rangoli Ice Cream</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="px-4 py-2 text-gray-700 hover:text-orange-500 transition">
+                    <i class="fas fa-home mr-1"></i> Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md overflow-hidden text-center">
+            <div class="bg-orange-500 py-6 px-4">
+                <i class="fas fa-check-circle text-white text-5xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-white">Order Confirmed!</h2>
+            </div>
+            
+            <div class="p-8">
+                <div id="order-details" class="mb-8">
+                    <p class="text-gray-500 mb-1">Your order number is</p>
+                    <h3 id="order-number" class="text-3xl font-bold text-orange-500 mb-6">RNG-ABCD1234</h3>
+                    
+                    <div class="flex justify-center space-x-8 mb-6">
+                        <div>
+                            <p class="text-gray-500 text-sm">Estimated Ready Time</p>
+                            <p class="font-medium">15-20 minutes</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Total Amount</p>
+                            <p id="order-total" class="font-medium">$0.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-4 text-left max-w-md mx-auto">
+                        <h4 class="font-medium mb-2">Order Status</h4>
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Order Confirmed</p>
+                                <p class="text-gray-500 text-sm">We've received your order</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3">
+                                <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+                            </div>
+                            <div>
+                                <p class="text-gray-400">Processing</p>
+                                <p class="text-gray-500 text-sm">Preparing your order</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3">
+                                <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+                            </div>
+                            <div>
+                                <p class="text-gray-400">Ready</p>
+                                <p class="text-gray-500 text-sm">Come collect your order</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <a href="customer-dashboard.html" class="inline-block w-full md:w-auto px-6 py-3 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition">
+                        <i class="fas fa-user mr-2"></i> View Your Dashboard
+                    </a>
+                    <a href="index.html" class="inline-block w-full md:w-auto px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition">
+                        <i class="fas fa-ice-cream mr-2"></i> Order More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get order details from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order_id');
+            
+            // In a real app, we would fetch order details from the backend
+            // For now, we'll simulate it
+            document.getElementById('order-number').textContent = `RNG-${orderId}`;
+            document.getElementById('order-total').textContent = `$${localStorage.getItem('lastOrderTotal') || '0.00'}`;
+            
+            // Create confetti effect
+            createConfetti();
+            
+            // Clear cart
+            localStorage.removeItem('cart');
+        });
+
+        function createConfetti() {
+            const colors = ['#f59e0b', '#ef4444', '#10b981', '#3b82f6', '#8b5cf6'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                const animationDuration = Math.random() * 3 + 2;
+                confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+                
+                document.body.appendChild(confetti);
+                
+                // Animate confetti
+                setTimeout(() => {
+                    confetti.style.opacity = '1';
+                    confetti.style.top = '100vh';
+                    confetti.style.left = (parseFloat(confetti.style.left) + (Math.random() * 200 - 100)) + 'px';
+                }, 10);
+            }
+            
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fall {
+                    to {
+                        transform: translateY(100vh) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html>
